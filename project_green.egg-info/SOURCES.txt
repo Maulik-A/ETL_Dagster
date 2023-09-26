@@ -1,0 +1,11 @@
+README.md
+pyproject.toml
+setup.cfg
+setup.py
+project_green/__init__.py
+project_green/assets.py
+project_green.egg-info/PKG-INFO
+project_green.egg-info/SOURCES.txt
+project_green.egg-info/dependency_links.txt
+project_green.egg-info/requires.txt
+project_green.egg-info/top_level.txt

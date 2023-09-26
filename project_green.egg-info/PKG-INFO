@@ -1,0 +1,10 @@
+Metadata-Version: 2.1
+Name: project-green
+Version: 0.0.0
+Requires-Dist: dagster
+Requires-Dist: pandas
+Requires-Dist: psycopg
+Requires-Dist: datetime
+Provides-Extra: dev
+Requires-Dist: dagster-webserver; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
