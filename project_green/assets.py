@@ -5,10 +5,9 @@ import requests
 
 from dagster import AssetExecutionContext, MetadataValue, asset
 
-import psycopg
-from psycopg import sql
-from psycopg import DatabaseError
-import credentials
+import psycopg2
+from psycopg2 import sql
+from psycopg2 import DatabaseError
 import rundate
 import datetime as dt
 
@@ -78,10 +77,10 @@ def transform_generation_data(get_generation_api_data):
 @asset
 def load_to_carbon_intensity_table(transform_carbon_data):
     df = transform_carbon_data
-    conn = psycopg.connect(
+    conn = psycopg2.connect(
         dbname = "postgres",
-        user = credentials.user,
-        password = credentials.password,
+        # user = credentials.user,
+        # password = credentials.password,
         port = "5432")
     cur = conn.cursor()
     tuples = list([tuple(x) for x in df.to_numpy()])
@@ -94,7 +93,7 @@ def load_to_carbon_intensity_table(transform_carbon_data):
         cur.executemany(query,tuples)
         conn.commit()
         
-    except (Exception, psycopg.DatabaseError) as error:
+    except (Exception, psycopg2.DatabaseError) as error:
             print("Error: %s" % error)
             conn.rollback()
             return 1
@@ -104,10 +103,10 @@ def load_to_carbon_intensity_table(transform_carbon_data):
 @asset
 def load_to_generation_mix_table(transform_generation_data):
     df = transform_generation_data
-    conn = psycopg.connect(
+    conn = psycopg2.connect(
         dbname = "postgres",
-        user = credentials.user,
-        password = credentials.password,
+        # user = credentials.user,
+        # password = credentials.password,
         port = "5432")
     cur = conn.cursor()
     tuples = list([tuple(x) for x in df.to_numpy()])
@@ -120,7 +119,7 @@ def load_to_generation_mix_table(transform_generation_data):
         cur.executemany(query,tuples)
         conn.commit()
         
-    except (Exception, psycopg.DatabaseError) as error:
+    except (Exception, psycopg2.DatabaseError) as error:
             print("Error: %s" % error)
             conn.rollback()
             return 1
@@ -135,10 +134,10 @@ def insert_into_fact_table(load_to_carbon_intensity_table,load_to_generation_mix
     end_time = pd.to_datetime(rundate.time_period_to) - dt.timedelta(hours=0, minutes=30)
     end_time = end_time.strftime('%Y-%m-%d %H:%M')
 
-    conn = psycopg.connect(
+    conn = psycopg2.connect(
         dbname = "postgres",
-        user = credentials.user,
-        password = credentials.password,
+        # user = credentials.user,
+        # password = credentials.password,
         port = "5432")
     cur = conn.cursor()
     
@@ -173,7 +172,7 @@ def insert_into_fact_table(load_to_carbon_intensity_table,load_to_generation_mix
         )
         conn.commit()
         
-    except (Exception, psycopg.DatabaseError) as error:
+    except (Exception, psycopg2.DatabaseError) as error:
             print("Error: %s" % error)
             conn.rollback()
             return 1

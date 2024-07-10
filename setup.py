@@ -6,7 +6,7 @@ setup(
     install_requires=[
         "dagster",
         "pandas",
-        "psycopg",
+        "psycopg2",
         "datetime"
     ],
     extras_require={"dev": ["dagster-webserver", "pytest"]},
