@@ -1,6 +1,4 @@
-# project_green
-
-This is a [Dagster](https://dagster.io/) project scaffolded with [`dagster project scaffold`](https://docs.dagster.io/getting-started/create-new-project).
+# ETL pipeline orchestrated by Dagster
 
 ## Getting started
 
